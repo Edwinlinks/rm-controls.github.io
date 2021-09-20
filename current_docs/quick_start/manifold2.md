@@ -46,9 +46,24 @@ sudo ./flash.sh jetson-tx2 mmcblk0p1
 
 配置好 CLion 之后将软件包 upload 到妙算对应的目录下。
 
-### 编译工作空间
-
+#### 编译工作空间
+```
+catkin build
+```
 #### 安装依赖
+在工作空间目录下执行：
+```
+rosdep install --from-paths . --ignore-src
+```
+#### 设置开机自启动脚本
+1. 进入/etc/systemd/system目录下:
+```
+cd /etc/systemd/system
+```
+2. 创建并编写服务
+```
+touch rm_auto_start.service
+```
 
 #### 遇到的问题以及解决
 
