@@ -37,35 +37,54 @@ sudo ./flash.sh jetson-tx2 mmcblk0p1
 
 ## 代码部署
 
-#### 配置工作空间文件层级
+### 配置工作空间文件层级
 
 1. 在妙算创建一个工作空间，命名 rm_ws 。
 2. 在 src 目录下创建名为 rm_software 的文件夹。
 
-####  配置 CLion
+###  配置 CLion
 
 配置好 CLion 之后将软件包 upload 到妙算对应的目录下。
 
-#### 编译工作空间
+### 配置妙算的环境
+#### 升级 gcc 和 g++
+1. 下载9.3.0以上的源码包并解压缩
+```asm
+wget http://ftp.gnu.org/gnu/gcc/gcc-11.2.0/gcc-11.2.0.tar.gz
+tar -zxvf gcc-11.2.0.tar.gz
 ```
+2. 下载依赖及配置文件
+```asm
+cd gcc-11.2.0
+./contrib/download_prerequisites
+```
+3. 配置
+```asm
+mkdir build
+cd build/
+../configure -enable-checking=release -enable-languages=c,c++ -disable-multilib
+```
+### 编译工作空间
+在工作空间根目录下执行
+```asm
 catkin build
 ```
-#### 安装依赖
-在工作空间目录下执行：
-```
+### 安装依赖
+在工作空间根目录下执行安装需要的依赖：
+```asm
 rosdep install --from-paths . --ignore-src
 ```
-#### 设置开机自启动脚本
+### 设置开机自启动脚本
 1. 进入/etc/systemd/system目录下:
-```
+```asm
 cd /etc/systemd/system
 ```
-2. 创建并编写服务
-```
+2. 创建服务
+```asm
 touch rm_auto_start.service
 ```
+3. 编写服务，在开机的时候执行creat_auto_set_can.sh和creat_rm_start.sh脚本
+```asm
+sudo vim rm_auto_start.service
+```
 
-#### 遇到的问题以及解决
-
-1. 升级 gcc 和 g++
-2. 修改代码部分
